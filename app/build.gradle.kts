@@ -9,34 +9,18 @@ android {
 
     defaultConfig {
         applicationId = "com.bharatbattlearena.game"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "0.1.0-stage1"
-    }
-
-    // Signing is only configured when the environment provides a keystore.
-    // No keys are stored in this repository.
-    signingConfigs {
-        val ksPath = System.getenv("KEYSTORE_PATH")
-        if (ksPath != null) {
-            create("release") {
-                storeFile = file(ksPath)
-                storePassword = System.getenv("KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("KEY_ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
-            }
-        }
+        versionName = "0.1.0"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfigs.findByName("release")?.let { signingConfig = it }
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -44,12 +28,8 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    lint {
-        abortOnError = false
-        checkReleaseBuilds = false
+    androidResources {
+        // keep the original artwork untouched
+        noCompress += listOf("png", "jpg")
     }
-}
-
-dependencies {
-    // Intentionally empty: the game uses only the Android SDK and the Kotlin stdlib.
 }
